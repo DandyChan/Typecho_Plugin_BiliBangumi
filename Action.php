@@ -46,6 +46,9 @@ class BangumiAPI {
             return;
         }
         $collData = json_decode($content);
+        if ($collData->code != 0) {
+        	die("获取异常。返回信息如下：<br>".$collData->message);
+        }
         $total = $collData->data->total;
     	if ($total == 0) {
             return;
@@ -83,7 +86,7 @@ class BangumiAPI {
         }
         switch ($flag) {
             case true:
-                if (sizeof($this->myCollection) == 0 || $this->myCollection == null) {
+                if ( $this->myCollection == null || sizeof($this->myCollection) == 0 ) {
                     echo "还没有记录哦~";
                     return;
                 }
