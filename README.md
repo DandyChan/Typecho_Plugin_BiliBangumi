@@ -29,5 +29,7 @@
 
 详细说明：参考 [博客](https://www.bwsl.wang/csother/85.html)
 
-效果：参考 [追番页](https://www.bwsl.wang/bangumi.html)
+效果：参考 [追番页](http://58.87.102.195/bangumi.html)
+
+RAW效果参见 [飞蚊话 - 追番](https://www.bwsl.wang/bangumi.html)
 
