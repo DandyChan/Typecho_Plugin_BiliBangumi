@@ -1,37 +1,33 @@
-# Typecho追番插件-B站来源
+# Typecho追番插件
 
-#### 介绍
-基于WikimoeBangumi修改，通过Bilibili账户获取追番信息。
+#### 项目介绍
+插件基于[WikiBangumi](https://www.wikimoe.com/?post=136)(原作者 广树)修改而成，将获取信息的来源更改为B站账户。
 
-#### 软件架构
-软件架构说明
+#### 修改内容
 
+|      项目       |                 原插件                 |                    修改后                    |
+| :-------------: | :------------------------------------: | :------------------------------------------: |
+|       api       |                Bangumi                 |                   Bilibili                   |
+| 设置项/登录方式 |               账号、密码               |                 UID、cookie                  |
+|    追番信息     | 中文番剧名、外文番剧名、首播日期、进度 | 中文番剧名、最后更新的剧集名、首播日期、进度 |
+|   进度条-文字   |             10/13、5/未知              |    已看完第13话/共 13 话、看到PV1/未完结     |
+|       css       |                   …                    |                      …                       |
+|      函数       |                   …                    |                      …                       |
 
-#### 安装教程
+#### 使用方法
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. 克隆或下载
+2. 解压到 `usr/plugins`，并重命名成`BilibiliBangumi`
+3. Typecho后台，启用插件
+4. 追番页-使用RAW主题
+	1. 使用RAW主题：将bangumi.php拷贝到主题文件夹
+	2. 新建独立页面，模板选择`bangumi`，发布
+5. 追番页-其他
+	1. 参见 [WikimoeBangumi](https://www.wikimoe.com/?post=136)
 
-#### 使用说明
+---
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+详细说明：参考 [博客](https://www.bwsl.wang/csother/85.html)
 
-#### 参与贡献
+效果：参考 [追番页](https://www.bwsl.wang/bangumi.html)
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
