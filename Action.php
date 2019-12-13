@@ -39,9 +39,6 @@ class BangumiAPI {
     
     //json处理
     private function ParseCollection() {
-    	if ($this->userID == 0) {
-    		die("没有填写UID，请检查插件设置");
-    	}
     	$content = $this->GetCollection(1);
     	if ($content == null || $content == "") {
             echo "获取失败<br />";
@@ -189,7 +186,7 @@ class BangumiAPI {
                     $lastep = $value->new_ep->long_title;
                     $air_date = $value->publish->release_date_show;
                     $theurl = $value->url;
-                    $img_grid = $value->cover/*str_replace("http://", "https://", $value->cover)*/;
+                    $img_grid = $value->cover;
                     $progressWidth = 0;
                     if ($epsNum == '未知') {
                         $progressWidth = 50;
@@ -264,6 +261,9 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
     public function action() {
         $config = Typecho_Widget::widget('Widget_Options')->plugin('BiliBangumi');
         $bangum = BangumiAPI::GetInstance();
+        if ($config->userID == 0) {
+    		die("没有填写UID，请检查插件设置");
+    	}
         $bangum->init($config->userID, $config->cookie);
         $bangum->printCollecion();
     }

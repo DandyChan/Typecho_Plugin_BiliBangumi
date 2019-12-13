@@ -45,7 +45,7 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
        /**表单设置 */
 		$userID = new Typecho_Widget_Helper_Form_Element_Text('userID', NULL, NULL, _t('输入B站UID'));
         $form->addInput($userID);
-		$cookie = new Typecho_Widget_Helper_Form_Element_Text('cookie', NULL, NULL, _t('把cookie复制进来'), _t('如果你的追番列表是公开的，那不写这个大概也成吧…只是取不到追番进度<br><a href="" target="_blank">点这里查看详细使用方法</a>'));
+		$cookie = new Typecho_Widget_Helper_Form_Element_Text('cookie', NULL, NULL, _t('把cookie复制进来'), _t('如果你的追番列表是公开的，那不写这个大概也成吧…只是取不到追番进度<br><a href="https://www.bwsl.wang/csother/85.html" target="_blank">点这里查看详细使用方法</a>'));
         $form->addInput($cookie);
     }
     
