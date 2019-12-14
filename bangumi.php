@@ -10,7 +10,7 @@
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 ?>
-
+<head><meta name="referrer" content="no-referrer"></head>
 <?php $this->need('head.php'); ?>
 <?php $this->need('header.php'); ?>
 
