@@ -34,7 +34,7 @@ class BangumiAPI {
     
     //获取追番json
     private function GetCollection($pn) {
-    	return BangumiAPI::curl_get_https('https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='.$pn.'&ps=15&vmid='.$this->userID.'&ts=1576028920527');
+    	return BangumiAPI::curl_get_https('https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='.$pn.'&ps=50&vmid='.$this->userID.'&ts=1576028920527');
     }
     
     //json处理
@@ -62,7 +62,7 @@ class BangumiAPI {
         }
         $i = 1;
         while(1==1){
-        	if($i*15-$total>=0){
+        	if($i*50-$total>=0){
         		break;
         	}
         	$i++;
@@ -189,7 +189,7 @@ class BangumiAPI {
                     $lastep = $value->new_ep->long_title;
                     $air_date = $value->publish->release_date_show;
                     $theurl = $value->url;
-                    $img_grid = $value->cover;
+                    $img_grid = str_replace("http", "https", $value->cover);
                     $progressWidth = 0;
                     if ($epsNum == '未知') {
                         $progressWidth = 50;
@@ -201,7 +201,7 @@ class BangumiAPI {
                     }
                     echo "
           <a href=" . $theurl . " target='_blank' class='bangumItem' title=\"" . $value->evaluate . "\">
-            <img src='$img_grid' />
+            <img referrerPolicy=\"no-referrer\" src='$img_grid' />
             <div class='textBox'>$name<br>
             最近更新：$lastep<br>
 			首播日期：$air_date<br>

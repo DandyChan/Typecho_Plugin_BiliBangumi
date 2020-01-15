@@ -10,7 +10,6 @@
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 ?>
-<head><meta name="referrer" content="no-referrer"></head>
 <?php $this->need('head.php'); ?>
 <?php $this->need('header.php'); ?>
 
@@ -66,6 +65,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php endif; ?>
         </div>
         <!--post-item end-->
+        <?php $this->need('comments.php'); ?>
         <?php $this->need('footer-info.php'); ?>
     </div>
     <!--<?php $this->need('nav-left.php'); ?>-->
