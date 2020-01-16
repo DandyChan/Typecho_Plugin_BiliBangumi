@@ -295,7 +295,7 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
         if ($config->userID == 0) {
     		die("没有填写UID，请检查插件设置");
     	}
-        $bangum->init($config->userID, $config->cookie, $config->bg);
+        $bangum->init($config->userID, $config->cookie, 'none');
         $bangum->printCollecion();
     }
 }
