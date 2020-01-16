@@ -10,6 +10,8 @@ class BangumiAPI {
     private $userID;
     //cookie
     private $cookie;
+    //背景设置项
+    private $background;
     //时间戳（可能需要。预留）
     private $ts;
     /** 方法 **/
@@ -27,9 +29,10 @@ class BangumiAPI {
     }
     
     //初始化变量
-    public function init($id=0, $ck='') {
+    public function init($id=0, $ck='', $bg) {
     	$this->userID = $id;
     	$this->cookie = $ck;
+    	$this->background = $bg;
     }
     
     //获取追番json
@@ -96,28 +99,48 @@ class BangumiAPI {
             line-height: 20px;
 			white-space: nowrap;
 			box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
-			width: 45%;
+			width: 47%;
 			margin: 1.5%;
 			float: left;
 			overflow: hidden;
 			display: block;
-			padding: 1%;
-			height: 7em;
-			/*background: #fff;*/
-			/*color: #14191e;*/
+			height: 9em;
 			text-decoration: none;
-			transition-duration: 0.5s;
+			transition: all 0.5s linear;
 			font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
           }
 		  a.bangumItem:hover{
 			/*color: #14191e;*/
 			opacity: 0.8;
-			filter: saturate(150%);
-			-webkit-filter: saturate(150%);
-			-moz-filter: saturate(150%);
-			-o-filter: saturate(150%);
-			-ms-filter: saturate(150%);
 		  }
+		  div.bg{
+		  	width: 47%;
+		    height: 9em;
+		    position: absolute;
+		    background-position-x: center;
+		    filter: blur(9px) brightness(0.8);
+		    -webkit-filter: blur(2px) brightness(0.8);
+			-moz-filter: blur(2px) brightness(0.8);
+			-o-filter: blur(2px) brightness(0.8);
+			-ms-filter: blur(2px) brightness(0.8);
+			transition: width 0.5s linear, background-position-y 20s linear;";
+			if ($this->background == 'none') {
+				echo "display: none;";
+			}
+			echo "}
+		  a.bangumItem:hover div.bg{
+		  	background-position-y: bottom;
+		  }
+		  div.mainMsg{
+			overflow: hidden;
+			height: 7em;
+			margin: 2%;";
+			if ($this->background == 'bangumi') {
+				echo "color: white;
+			font-weight: bold;
+			text-shadow: 1px 1px 1px black;";
+			}
+			echo "}
           a.bangumItem img{
             /*width:60px;*/
 			height:5.8em;
@@ -159,10 +182,15 @@ class BangumiAPI {
 			position: absolute;
 			bottom: 0px;
 			z-index: 2;
+    		font-weight: normal;
+    		text-shadow: none;
           }
 		  @media screen and (max-width:1000px) { 
 			   a.bangumItem{
 					width:95%;
+				}
+				div.bg{
+		  			width: 95%;
 				}
 			}
           </style>
@@ -200,7 +228,7 @@ class BangumiAPI {
                         }
                     }
                     echo "
-          <a href=" . $theurl . " target='_blank' class='bangumItem' title=\"" . $value->evaluate . "\">
+          <a href=" . $theurl . " target='_blank' class='bangumItem' title=\"" . $value->evaluate . "\"><div class=\"bg\" style=\"background-image: url(".$img_grid.")\"></div><div class=\"mainMsg\">
             <img referrerPolicy=\"no-referrer\" src='$img_grid' />
             <div class='textBox'>$name<br>
             最近更新：$lastep<br>
@@ -210,7 +238,7 @@ class BangumiAPI {
             <div class='jinduFG' style='width:" . $progressWidth . "%;'>
             </div>
             </div>
-            </div>
+            </div></div>
           </a>";
                     
                 }
@@ -267,7 +295,7 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
         if ($config->userID == 0) {
     		die("没有填写UID，请检查插件设置");
     	}
-        $bangum->init($config->userID, $config->cookie);
+        $bangum->init($config->userID, $config->cookie, $config->bg);
         $bangum->printCollecion();
     }
 }
