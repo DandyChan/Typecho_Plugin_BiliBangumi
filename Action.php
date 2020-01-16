@@ -106,15 +106,13 @@ class BangumiAPI {
 			display: block;
 			height: 9em;
 			text-decoration: none;
-			transition: all 0.5s linear;
+			transition: opacity 0.5s linear;
 			font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
           }
 		  a.bangumItem:hover{
-			/*color: #14191e;*/
 			opacity: 0.8;
 		  }
 		  div.bg{
-		  	width: 47%;
 		    height: 9em;
 		    position: absolute;
 		    background-position-x: center;
@@ -142,7 +140,6 @@ class BangumiAPI {
 			}
 			echo "}
           a.bangumItem img{
-            /*width:60px;*/
 			height:5.8em;
             display:inline-block;
             float:left;
@@ -188,9 +185,6 @@ class BangumiAPI {
 		  @media screen and (max-width:1000px) { 
 			   a.bangumItem{
 					width:95%;
-				}
-				div.bg{
-		  			width: 95%;
 				}
 			}
           </style>
@@ -295,7 +289,7 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
         if ($config->userID == 0) {
     		die("没有填写UID，请检查插件设置");
     	}
-        $bangum->init($config->userID, $config->cookie, 'none');
+        $bangum->init($config->userID, $config->cookie, $config->bg);
         $bangum->printCollecion();
     }
 }

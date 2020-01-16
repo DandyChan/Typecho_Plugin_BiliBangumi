@@ -118,13 +118,17 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
 				url: '". Helper::options()->siteUrl ."index.php/BiliBangumi',
 				success: function(res) {
 					$('#bangumiBody').empty().append(res);
-			
+                    $('div.bg').width($('a.bangumItem').width());
 				},
 				error:function(){
 					$('#bangumiBody').empty().text('加载失败');
 				}
 			});
 		},500)
+
+        window.onresize = function(){
+        	$('div.bg').width($('a.bangumItem').width());
+        }
 		</script>
 		
 		";
