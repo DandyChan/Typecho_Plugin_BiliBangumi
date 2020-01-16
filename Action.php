@@ -112,7 +112,7 @@ class BangumiAPI {
 		  a.bangumItem:hover{
 			opacity: 0.8;
 		  }
-		  div.bg{
+		  div.bangumibg{
 		    height: 9em;
 		    position: absolute;
 		    background-position-x: center;
@@ -121,12 +121,12 @@ class BangumiAPI {
 			-moz-filter: blur(2px) brightness(0.8);
 			-o-filter: blur(2px) brightness(0.8);
 			-ms-filter: blur(2px) brightness(0.8);
-			transition: width 0.5s linear, background-position-y 20s linear;";
+			transition: background-position-y 20s linear;";
 			if ($this->background == 'none') {
 				echo "display: none;";
 			}
 			echo "}
-		  a.bangumItem:hover div.bg{
+		  a.bangumItem:hover div.bangumibg{
 		  	background-position-y: bottom;
 		  }
 		  div.mainMsg{
@@ -144,6 +144,7 @@ class BangumiAPI {
             display:inline-block;
             float:left;
             margin-right:5px;
+            filter: brightness(1);
           }
 		  a.bangumItem .textBox{
             text-overflow:ellipsis;overflow:hidden;
@@ -222,8 +223,10 @@ class BangumiAPI {
                         }
                     }
                     echo "
-          <a href=" . $theurl . " target='_blank' class='bangumItem' title=\"" . $value->evaluate . "\"><div class=\"bg\" style=\"background-image: url(".$img_grid.")\"></div><div class=\"mainMsg\">
-            <img referrerPolicy=\"no-referrer\" src='$img_grid' />
+          <a href='$theurl' target='_blank' class='bangumItem' title='$value->evaluate'>
+          <div class='bangumibg' style='background-image: url($img_grid)'></div>
+          <div class='mainMsg'>
+            <img referrerPolicy='no-referrer' src='$img_grid' />
             <div class='textBox'>$name<br>
             最近更新：$lastep<br>
 			首播日期：$air_date<br>
