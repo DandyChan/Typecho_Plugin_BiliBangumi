@@ -104,7 +104,7 @@ class BangumiAPI {
 			float: left;
 			overflow: hidden;
 			display: block;
-			height: 9em;
+			height: 7em;
 			text-decoration: none;
 			transition: opacity 0.5s linear;
 			font-family:-apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
@@ -113,7 +113,7 @@ class BangumiAPI {
 			opacity: 0.8;
 		  }
 		  div.bangumibg{
-		    height: 9em;
+		    height: 7em;
 		    position: absolute;
 		    background-position-x: center;
 		    filter: blur(9px) brightness(0.8);
@@ -131,8 +131,8 @@ class BangumiAPI {
 		  }
 		  div.mainMsg{
 			overflow: hidden;
-			height: 7em;
-			margin: 2%;";
+			height: 6em;
+			padding: 1%;";
 			if ($this->background == 'bangumi') {
 				echo "color: white;
 			font-weight: bold;
