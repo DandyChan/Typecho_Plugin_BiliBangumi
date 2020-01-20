@@ -60,7 +60,8 @@ class BangumiAPI {
         foreach ($collData->data->list as $value) {
             $name = $value->title;
             $theurl = $value->url;
-            $img_grid = $value->cover;
+            $this->saveImage($value->cover, './bangumi/'.$value->season_id.'.jpg');
+            $img_grid = $value->season_id.'.jpg';
             $this->myCollection[$index++] = $value;
         }
         $i = 1;
@@ -74,7 +75,8 @@ class BangumiAPI {
         	foreach ($collData->data->list as $value) {
 	            $name = $value->title;
 	            $theurl = $value->url;
-	            $img_grid = $value->cover;
+	            $this->saveImage($value->cover, './bangumi/'.$value->season_id.'.jpg');
+            	$img_grid = $value->season_id.'.jpg';
 	            $this->myCollection[$index++] = $value;
 	        }
 	        sleep(0.5);
@@ -212,7 +214,7 @@ class BangumiAPI {
                     $lastep = $value->new_ep->long_title;
                     $air_date = $value->publish->release_date_show;
                     $theurl = $value->url;
-                    $img_grid = str_replace("http", "https", $value->cover);
+                    $img_grid = './bangumi/'.$value->season_id.'.jpg';
                     $progressWidth = 0;
                     if ($epsNum == '未知') {
                         $progressWidth = 50;
@@ -226,7 +228,7 @@ class BangumiAPI {
           <a href='$theurl' target='_blank' class='bangumItem' title='$value->evaluate'>
           <div class='bangumibg' style='background-image: url($img_grid)'></div>
           <div class='mainMsg'>
-            <img referrerPolicy='no-referrer' src='$img_grid' />
+            <img src='$img_grid' />
             <div class='textBox'>$name<br>
             最近更新：$lastep<br>
 			首播日期：$air_date<br>
@@ -283,6 +285,26 @@ class BangumiAPI {
 			}
 		}
 		return $result;
+	}
+	
+	//缓存图片
+	function saveImage($path, $image_name) {
+		if (!file_exists("bangumi")){
+		mkdir ("bangumi",0755,true);
+		}
+		if (file_exists($image_name)) {
+			echo '<script>console.log("封面文件'.$image_name.'已存在，跳过");</script>';
+			return;
+		}
+		echo '<script>console.log("封面文件'.$image_name.'不存在，正在缓存...");</script>';
+	    $ch = curl_init ($path);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+	    $img = curl_exec ($ch);
+	    curl_close ($ch);
+	    $fp = fopen($image_name,'w');
+	    fwrite($fp, $img);
+	    fclose($fp);
 	}
 }
 class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Interface_Do {

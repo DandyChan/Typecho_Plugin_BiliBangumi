@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package BiliBangumi
  * @author 广树 / 修改 by 飞蚊话
- * @version 1.0.0.201b
+ * @version 1.0.0.201c
  * @link https://www.bwsl.wang
  */
 class BiliBangumi_Plugin implements Typecho_Plugin_Interface
@@ -47,7 +47,7 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
         $form->addInput($userID);
 		$cookie = new Typecho_Widget_Helper_Form_Element_Text('cookie', NULL, NULL, _t('把cookie复制进来'), _t('如果你的追番列表是公开的，那不写这个大概也成吧…只是取不到追番进度<br><a href="https://www.bwsl.wang/csother/85.html" target="_blank">点这里查看详细使用方法</a>'));
         $form->addInput($cookie);
-        $background = new Typecho_Widget_Helper_Form_Element_Radio('bg', array('bangumi' => _t('番剧封面'), 'none' => _t('默认色'),), 'none', _t('块背景'), null);
+        $background = new Typecho_Widget_Helper_Form_Element_Radio('bg', array('bangumi' => _t('番剧封面'), 'none' => _t('默认色'),), 'none', _t('块背景'), _t('设置完成后，请先访问一次以构建封面缓存（可能会加载较长时间。因为要下载封面到服务器，所以请耐心等待一阵）'));
         $form->addInput($background);
     }
     
