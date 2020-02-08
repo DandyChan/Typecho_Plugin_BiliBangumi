@@ -214,7 +214,7 @@ class BangumiAPI {
                     $lastep = $value->new_ep->long_title;
                     $air_date = $value->publish->release_date_show;
                     $theurl = $value->url;
-                    $img_grid = './bangumi/'.$value->season_id.'.jpg';
+                    $img_grid = Helper::options()->siteUrl.'bangumi/'.$value->season_id.'.jpg';
                     $progressWidth = 0;
                     if ($epsNum == '未知') {
                         $progressWidth = 50;
