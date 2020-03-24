@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package BiliBangumi
  * @author 广树 / 修改 by 飞蚊话
- * @version 1.0.0.201c
+ * @version 1.0.0.202
  * @link https://www.bwsl.wang
  */
 class BiliBangumi_Plugin implements Typecho_Plugin_Interface
