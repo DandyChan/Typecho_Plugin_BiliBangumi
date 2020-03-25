@@ -35,10 +35,7 @@
 1. 克隆或下载
 2. 解压到 `usr/plugins`，并重命名成`BilibiliBangumi`
 3. Typecho后台，启用插件
-4. 追番页-使用RAW主题
-	1. 使用RAW主题：将bangumi.php拷贝到主题文件夹
-	2. 新建独立页面，模板选择`bangumi`，发布
-5. 追番页-其他
+4. 使用方法
 	1. 参见 [WikimoeBangumi](https://www.wikimoe.com/?post=136)
 
 #### 关于番剧封面
