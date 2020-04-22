@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package BiliBangumi
  * @author 广树 / 修改 by 飞蚊话
- * @version 1.0.0.202
+ * @version 1.0.0.204
  * @link https://www.bwsl.wang
  */
 class BiliBangumi_Plugin implements Typecho_Plugin_Interface
@@ -129,6 +129,29 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
         window.onresize = function(){
         	$('div.bangumibg').width($('a.bangumItem').width());
         }
+        
+        function ajax(pn) {
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else { // IE5/6
+                xhr = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            xhr.open('get', '". Helper::options()->siteUrl ."index.php/BiliBangumi?pn='+pn);
+            xhr.setRequestHeader(\"Content-type\", \"application/x-www-form-urlencoded\");
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        $('#bangumiBody').empty().append(xhr.responseText);
+                        $('div.bangumibg').width($('a.bangumItem').width());
+                        }
+
+                    } else {
+                        $('#bangumiBody').empty().text('加载失败');
+                    }
+                }
+            }
 		</script>
 		
 		";

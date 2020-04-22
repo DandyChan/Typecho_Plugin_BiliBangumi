@@ -37,12 +37,12 @@ class BangumiAPI {
     
     //获取追番json
     private function GetCollection($pn) {
-    	return BangumiAPI::curl_get_https('https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='.$pn.'&ps=50&vmid='.$this->userID.'&ts=1576028920527');
+    	return BangumiAPI::curl_get_https('https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='.$pn.'&ps=30&vmid='.$this->userID);
     }
     
     //json处理
-    private function ParseCollection() {
-    	$content = $this->GetCollection(1);
+    private function ParseCollection($pn) {
+    	$content = $this->GetCollection($pn);
     	if ($content == null || $content == "") {
             echo "获取失败<br />";
             print_r($content);
@@ -64,30 +64,14 @@ class BangumiAPI {
             $img_grid = $value->season_id.'.jpg';
             $this->myCollection[$index++] = $value;
         }
-        $i = 1;
-        while(1==1){
-        	if($i*50-$total>=0){
-        		break;
-        	}
-        	$i++;
-        	$content = $this->GetCollection($i);
-        	$collData = json_decode($content);
-        	foreach ($collData->data->list as $value) {
-	            $name = $value->title;
-	            $theurl = $value->url;
-	            $this->saveImage($value->cover, './bangumi/'.$value->season_id.'.jpg');
-            	$img_grid = $value->season_id.'.jpg';
-	            $this->myCollection[$index++] = $value;
-	        }
-	        sleep(0.5);
-        }
+        return $total;
     }
     
     
     //输出
-    public function PrintCollecion($flag = true) {
+    public function PrintCollecion($pn, $flag = true) {
         if ($this->myCollection == null) {
-            $this->ParseCollection();
+            $total = $this->ParseCollection($pn);
         }
         switch ($flag) {
             case true:
@@ -190,10 +174,18 @@ class BangumiAPI {
 					width:95%;
 				}
 			}
+          .bangumPage {
+            height: 100%;
+            width: 100%;
+            background-color: #1E90FF;
+            color: white;
+            outline: none;
+            border-width: 0;
+            box-shadow: 0 0 5px black;
+          }
           </style>
         ";
                 foreach ($this->myCollection as $value) {
-                    // print_r($value);
                     $epsNum = '未知';
                     if (@$value->is_finish) {
                         $epsNum = $value->total_count;
@@ -214,7 +206,8 @@ class BangumiAPI {
                     $lastep = $value->new_ep->long_title;
                     $air_date = $value->publish->release_date_show;
                     $theurl = $value->url;
-                    $img_grid = Helper::options()->siteUrl.'bangumi/'.$value->season_id.'.jpg';
+                    $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
+                    $img_grid = Helper::options()->siteUrl.'/bangumi/'.$value->season_id.'.jpg';
                     $progressWidth = 0;
                     if ($epsNum == '未知') {
                         $progressWidth = 50;
@@ -241,6 +234,20 @@ class BangumiAPI {
           </a>";
                     
                 }
+                if($pn>1) {
+                    if($pn*30-$total<0) {
+                        return 3;   //显示上一页和下一页
+                    }
+                    else
+                        return 1;   //只显示上一页
+                }
+                else {
+                    if($pn*30-$total<0) {
+                        return 2;   //只显示下一页
+                    }
+                    else
+                        return 0;   //什么都不显示
+                }
                 break;
 
             case false:
@@ -250,6 +257,7 @@ class BangumiAPI {
             default:
                 break;
         }
+        return 0;
     }
     
     //curl get获取json
@@ -315,7 +323,24 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
     		die("没有填写UID，请检查插件设置");
     	}
         $bangum->init($config->userID, $config->cookie, $config->bg);
-        $bangum->printCollecion();
+        if($_GET['pn']=='')
+            $pn = 1;
+        else
+            $pn = $_GET['pn'];
+        $status = $bangum->printCollecion($pn);
+        switch ($status) {
+        case 1:
+            echo '<a class="bangumItem" href=javascript:; onclick=ajax('.($pn-1).')><button class="bangumPage">上一页</button></a>';
+            break;
+        case 2:
+            echo '<a class="bangumItem" href=javascript:; onclick=ajax('.($pn+1).')><button class="bangumPage">下一页</button></a>';
+            break;
+        case 3:
+            echo '<a class="bangumItem" href=javascript:; onclick=ajax('.($pn-1).')><button class="bangumPage">上一页</button></a><a class="bangumItem" href=javascript:; onclick=ajax('.($pn+1).')><button class="bangumPage">下一页</button></a>';
+            break;
+        default:
+            break;
+        }
     }
 }
 
