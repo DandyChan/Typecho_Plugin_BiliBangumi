@@ -35,7 +35,7 @@
 #### 使用方法
 
 1. 克隆或下载
-2. 解压到 `usr/plugins`，并重命名成`BilibiliBangumi`
+2. 解压到 `usr/plugins`，并重命名成`BiliBangumi`
 3. Typecho后台，启用插件
 4. 使用方法
 	1. 参见 [WikimoeBangumi](https://www.wikimoe.com/?post=136)
