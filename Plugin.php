@@ -82,6 +82,7 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
     {
 		$Path = Helper::options()->pluginUrl . '/BiliBangumi/';
 		echo '<link rel="stylesheet" type="text/css" href="' . $Path . 'css/css.css" />';
+		echo '<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>';
         echo '<div id="bangumiBody">
         	<div class="bangumi_loading">
             <div class="loading-anim">
