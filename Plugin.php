@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package BiliBangumi
  * @author 广树 / 修改 by 飞蚊话
- * @version 1.0.0.204
+ * @version 1.0.0.2010
  * @link https://www.bwsl.wang
  */
 class BiliBangumi_Plugin implements Typecho_Plugin_Interface
@@ -49,6 +49,10 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
         $form->addInput($cookie);
         $background = new Typecho_Widget_Helper_Form_Element_Radio('bg', array('bangumi' => _t('番剧封面'), 'none' => _t('默认色'),), 'none', _t('块背景'), _t('设置完成后，请先访问一次以构建封面缓存（可能会加载较长时间。因为要下载封面到服务器，所以请耐心等待一阵）'));
         $form->addInput($background);
+        $blocks = new Typecho_Widget_Helper_Form_Element_Text('blocks', NULL, NULL, _t('每页数量'), _t('指定每页显示的番剧数量，默认10'));
+        $form->addInput($blocks);
+        $customcss = new Typecho_Widget_Helper_Form_Element_Text('customcss', NULL, NULL, _t('自定义翻页键'), _t('使用CSS自定义翻页按钮样式。留空恢复默认。<br>通过 属性1: 值1; 属性2: 值2; 属性3: 值3;... 方式书写。具体请百度css样式表'));
+        $form->addInput($customcss);
     }
     
     /**
@@ -82,7 +86,7 @@ class BiliBangumi_Plugin implements Typecho_Plugin_Interface
     {
 		$Path = Helper::options()->pluginUrl . '/BiliBangumi/';
 		echo '<link rel="stylesheet" type="text/css" href="' . $Path . 'css/css.css" />';
-		echo '<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>';
+		echo '<script src="' . $Path . 'js/jquery.min.js"></script>';
         echo '<div id="bangumiBody">
         	<div class="bangumi_loading">
             <div class="loading-anim">

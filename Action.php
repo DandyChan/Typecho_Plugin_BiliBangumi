@@ -12,6 +12,10 @@ class BangumiAPI {
     private $cookie;
     //背景设置项
     private $background;
+    //每页番剧块数量
+    private $blocks;
+    //翻页按钮css
+    private $customcss;
     //时间戳（可能需要。预留）
     private $ts;
     /** 方法 **/
@@ -29,15 +33,27 @@ class BangumiAPI {
     }
     
     //初始化变量
-    public function init($id=0, $ck='', $bg) {
+    public function init($id=0, $ck='', $bg, $bl, $css) {
     	$this->userID = $id;
     	$this->cookie = $ck;
     	$this->background = $bg;
+        if(!empty($bl) && is_numeric($bl)) {
+            $this->blocks = $bl;
+        }
+        else {
+            $this->blocks = 10;
+        }
+    	if(!empty($css) && !ctype_space($css)) {
+            $this->customcss = $css;
+        }
+        else {
+            $this->customcss = 'height: 100%;width: 100%;background-color: #1E90FF;color: white;outline: none;border-width: 0;box-shadow: 0 0 5px black;';
+        }
     }
     
     //获取追番json
     private function GetCollection($pn) {
-    	return BangumiAPI::curl_get_https('https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='.$pn.'&ps=30&vmid='.$this->userID);
+    	return BangumiAPI::curl_get_https('https://api.bilibili.com/x/space/bangumi/follow/list?type=1&follow_status=0&pn='.$pn.'&ps='.$this->blocks.'&vmid='.$this->userID);
     }
     
     //json处理
@@ -174,14 +190,7 @@ class BangumiAPI {
 					width:95%;
 				}
 			}
-          .bangumPage {
-            height: 100%;
-            width: 100%;
-            background-color: #1E90FF;
-            color: white;
-            outline: none;
-            border-width: 0;
-            box-shadow: 0 0 5px black;
+          .bangumPage {".$this->customcss."
           }
           </style>
         ";
@@ -235,14 +244,14 @@ class BangumiAPI {
                     
                 }
                 if($pn>1) {
-                    if($pn*30-$total<0) {
+                    if($pn*$this->blocks-$total<0) {
                         return 3;   //显示上一页和下一页
                     }
                     else
                         return 1;   //只显示上一页
                 }
                 else {
-                    if($pn*30-$total<0) {
+                    if($pn*$this->blocks-$total<0) {
                         return 2;   //只显示下一页
                     }
                     else
@@ -322,7 +331,7 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
         if ($config->userID == 0) {
     		die("没有填写UID，请检查插件设置");
     	}
-        $bangum->init($config->userID, $config->cookie, $config->bg);
+        $bangum->init($config->userID, $config->cookie, $config->bg, $config->blocks, $config->customcss);
         if($_GET['pn']=='')
             $pn = 1;
         else
