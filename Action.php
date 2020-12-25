@@ -197,7 +197,7 @@ class BangumiAPI {
                 foreach ($this->myCollection as $value) {
                     $epsNum = '未知';
                     if (@$value->is_finish) {
-                        $epsNum = $value->total_count;
+                        $epsNum = $value->total_count; // total_count 为总计正片集数（完结为全集集数，未完结一般为-1）
                     }
                     $progressNum_str=explode(" ",$value->progress==""?"(无记录)":$value->progress);
                     if(!empty($progressNum_str))
@@ -210,10 +210,28 @@ class BangumiAPI {
                     else {
                     	$myProgress = $progressNum . "，未完结";
                     }
+
+                    // 查找字符串中的数字
                     $progressNum = $this->findNum($progressNum)==""?100:$this->findNum($progressNum);
+
+                    // 追番页单元格
+                    // 番剧名
                     $name = $value->title;
-                    $lastep = $value->new_ep->long_title;
+					
+					// 最近更新
+                    // 若所追番剧未开播，则会出现undefined，所以加一个判断
+                    // $lastep = $value->new_ep->long_title;
+                    // long_title改成title了
+                    if (empty($value->new_ep->title)) {
+                    	$lastep = $value->new_ep->index_show;
+                    }else{
+                    	$lastep = $value->new_ep->title;
+                    }
+
+                    // 首播日期
                     $air_date = $value->publish->release_date_show;
+
+                    // 番剧链接
                     $theurl = $value->url;
                     $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
                     $img_grid = Helper::options()->siteUrl.'/bangumi/'.$value->season_id.'.jpg';
@@ -269,6 +287,7 @@ class BangumiAPI {
         return 0;
     }
     
+    // 以下是自有方法
     //curl get获取json
     private function curl_get_https($url) {
         $curl = curl_init();
@@ -324,6 +343,8 @@ class BangumiAPI {
 	    fclose($fp);
 	}
 }
+
+// 插件相关方法
 class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Interface_Do {
     public function action() {
         $config = Typecho_Widget::widget('Widget_Options')->plugin('BiliBangumi');
@@ -332,10 +353,13 @@ class BiliBangumi_Action extends Widget_Abstract_Contents implements Widget_Inte
     		die("没有填写UID，请检查插件设置");
     	}
         $bangum->init($config->userID, $config->cookie, $config->bg, $config->blocks, $config->customcss);
-        if($_GET['pn']=='')
+        // 拿不到pn，那就empty它
+        // 暴力操作
+        if(empty($_GET['pn'])){
             $pn = 1;
-        else
+        }else{
             $pn = $_GET['pn'];
+        }
         $status = $bangum->printCollecion($pn);
         switch ($status) {
         case 1:
